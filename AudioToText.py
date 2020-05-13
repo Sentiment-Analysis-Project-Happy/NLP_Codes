@@ -1,4 +1,17 @@
 # importing libraries 
+
+text = """<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head><body>
+<p>एक  दो</p>
+</body></html>"""
+
+
+
+recording_file = open('RECORDS.html','w+',encoding='utf8')
+
+
+
 import speech_recognition as sr 
   
 import os 
@@ -36,7 +49,7 @@ def silence_based_conversion(path ):
   
         # consider it silent if quieter than -16 dBFS 
         # adjust this per requirement 
-        silence_thresh = -25
+        silence_thresh = -40
     ) 
     print(chunks)
     for chunk in chunks:
@@ -87,15 +100,20 @@ def silence_based_conversion(path ):
         with sr.AudioFile(file) as source: 
             # remove this if it is not working 
             # correctly. 
-            r.adjust_for_ambient_noise(source) 
-            audio_listened = r.listen(source) 
+            #r.adjust_for_ambient_noise(source) 
+            audio_listened = r.record(source) 
   
         try: 
             # try converting it to text 
-            rec = r.recognize_google(audio_listened,language = 'en-IN') 
+            rec = r.recognize_google(audio_listened,language = 'hi-IN') 
             # write the output to the file.
-            print(rec) 
-            fh.write(rec+". ") 
+            # for i in range(len(rec)):
+            #     print(ord(rec[i]))
+            # with open('text.html', 'w', encoding='utf8') as file2:
+            #     file2.write(rec)
+            # print(rec) 
+            recording_file.write(rec+'  |   ')
+            #fh.write(rec) 
             
   
         #catch any errors. 
